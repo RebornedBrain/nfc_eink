@@ -26,6 +26,11 @@ static uint8_t nfc_eink_screen_info_filter_by_mode(NfcEinkApp* instance) {
         cnt = nfc_eink_descriptor_get_all_usable(instance->arr);
         break;
     }
+
+    // Jedes Bild darf immer auch auf die V2-Variante der gleichen Groesse
+    // (gleiches Bildformat), egal welcher Schreibmodus eingestellt ist.
+    cnt += nfc_eink_descriptor_add_v2_by_screen_size(
+        instance->arr, instance->info_temp->screen_size);
     return cnt;
 }
 

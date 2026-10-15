@@ -21,6 +21,7 @@
 
 extern const NfcEinkScreenHandlers waveshare_handlers;
 extern const NfcEinkScreenHandlers goodisplay_handlers;
+extern const NfcEinkScreenHandlers waveshare_v2_handlers;
 
 typedef struct {
     const NfcEinkScreenHandlers* handlers;
@@ -38,7 +39,17 @@ static const NfcEinkScreenManufacturerDescriptor manufacturers[NfcEinkManufactur
             .handlers = &goodisplay_handlers,
             .name = "Goodisplay",
         },
+    [NfcEinkManufacturerWaveshareV2] =
+        {
+            .handlers = &waveshare_v2_handlers,
+            .name = "Waveshare V2",
+        },
 };
+
+bool nfc_eink_screen_manufacturer_can_emulate(NfcEinkManufacturer manufacturer) {
+    furi_assert(manufacturer < NfcEinkManufacturerNum);
+    return manufacturers[manufacturer].handlers->listener_callback != NULL;
+}
 
 const char* nfc_eink_screen_get_manufacturer_name(NfcEinkManufacturer manufacturer) {
     furi_assert(manufacturer < NfcEinkManufacturerNum);

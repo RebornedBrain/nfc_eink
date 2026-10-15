@@ -1,5 +1,6 @@
 #include "nfc_eink_screen_infos.h"
 #include "nfc_eink_screen/waveshare/eink_waveshare_config.h"
+#include "nfc_eink_screen/waveshare_v2/eink_waveshare_v2_profile_ids.h"
 
 typedef bool (*NfcEinkDescriptorCompareDelegate)(
     const NfcEinkScreenInfo* const a,
@@ -61,6 +62,55 @@ const NfcEinkScreenInfo screen_descriptors[] = {
         .screen_manufacturer = NfcEinkManufacturerWaveshare,
         .protocol_type_field = EinkScreenTypeWaveshare7n5inch,
         .data_block_size = 120,
+    },
+    /* ---- Waveshare V2 (neuer NFC-Chip, ISO14443-4A, nur Schreiben) ----
+       Gleiches Bildformat wie die alten Groessen (width = Zeilen, height = Pixel pro Zeile).
+       protocol_type_field = Profil-Nummer (siehe eink_waveshare_v2_profiles.c).
+       data_block_size = Bytes pro Funk-Paket (beim 4.2" mit 150 und 50 getestet). */
+    {
+        .name = NFC_EINK_SCREEN_WAVESHARE_V2_4n2,
+        .width = 300,
+        .height = 400,
+        .screen_size = NfcEinkScreenSize4n2inch,
+        .screen_manufacturer = NfcEinkManufacturerWaveshareV2,
+        .protocol_type_field = EinkWaveshareV2Profile4n2,
+        .data_block_size = 150,
+    },
+    {
+        .name = NFC_EINK_SCREEN_WAVESHARE_V2_2n13,
+        .width = 250,
+        .height = 122,
+        .screen_size = NfcEinkScreenSize2n13inch,
+        .screen_manufacturer = NfcEinkManufacturerWaveshareV2,
+        .protocol_type_field = EinkWaveshareV2Profile2n13,
+        .data_block_size = 150,
+    },
+    {
+        .name = NFC_EINK_SCREEN_WAVESHARE_V2_2n9,
+        .width = 296,
+        .height = 128,
+        .screen_size = NfcEinkScreenSize2n9inch,
+        .screen_manufacturer = NfcEinkManufacturerWaveshareV2,
+        .protocol_type_field = EinkWaveshareV2Profile2n9,
+        .data_block_size = 150,
+    },
+    {
+        .name = NFC_EINK_SCREEN_WAVESHARE_V2_2n7,
+        .width = 264,
+        .height = 176,
+        .screen_size = NfcEinkScreenSize2n7inch,
+        .screen_manufacturer = NfcEinkManufacturerWaveshareV2,
+        .protocol_type_field = EinkWaveshareV2Profile2n7,
+        .data_block_size = 150,
+    },
+    {
+        .name = NFC_EINK_SCREEN_WAVESHARE_V2_7n5,
+        .width = 480,
+        .height = 800,
+        .screen_size = NfcEinkScreenSize7n5inch,
+        .screen_manufacturer = NfcEinkManufacturerWaveshareV2,
+        .protocol_type_field = EinkWaveshareV2Profile7n5,
+        .data_block_size = 150,
     },
     {
         .name = NFC_EINK_SCREEN_GDEY0154D67,
@@ -216,6 +266,29 @@ uint8_t nfc_eink_descriptor_get_all_usable(EinkScreenInfoArray_t result) {
     for(uint8_t i = 1; i < COUNT_OF(screen_descriptors); i++) {
         EinkScreenInfoArray_push_back(result, &screen_descriptors[i]);
         count++;
+    }
+    return count;
+}
+
+uint8_t nfc_eink_descriptor_add_v2_by_screen_size(
+    EinkScreenInfoArray_t result,
+    NfcEinkScreenSize screen_size) {
+    furi_assert(result);
+
+    uint8_t count = 0;
+    for(uint8_t i = 0; i < COUNT_OF(screen_descriptors); i++) {
+        const NfcEinkScreenInfo* item = &screen_descriptors[i];
+        if(item->screen_manufacturer != NfcEinkManufacturerWaveshareV2) continue;
+        if(item->screen_size != screen_size) continue;
+
+        bool already_in_list = false;
+        for(size_t j = 0; j < EinkScreenInfoArray_size(result); j++) {
+            if(*EinkScreenInfoArray_get(result, j) == item) already_in_list = true;
+        }
+        if(!already_in_list) {
+            EinkScreenInfoArray_push_back(result, item);
+            count++;
+        }
     }
     return count;
 }

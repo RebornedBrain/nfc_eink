@@ -9,6 +9,7 @@
 typedef struct NfcEinkScreen NfcEinkScreen;
 
 const char* nfc_eink_screen_get_manufacturer_name(NfcEinkManufacturer type);
+bool nfc_eink_screen_manufacturer_can_emulate(NfcEinkManufacturer manufacturer);
 
 NfcEinkScreen* nfc_eink_screen_alloc(NfcEinkManufacturer manufacturer);
 void nfc_eink_screen_init(NfcEinkScreen* screen, const char* name);

@@ -1,6 +1,6 @@
 App(
-    appid="nfc_eink",
-    name="NFC-Eink",
+    appid="nfc_eink_v2",
+    name="NFC-Eink V2",
     apptype=FlipperAppType.EXTERNAL,
     targets=["f7"],
     entry_point="nfc_eink",
@@ -12,8 +12,9 @@ App(
     ],
     fap_icon="icon.png",
     fap_icon_assets="assets",
+    fap_icon_assets_symbol="nfc_eink",
     fap_description="Application for emulation and writing to NFC Eink tags",
     fap_author="RebornedBrain",
-    fap_version="1.0",
+    fap_version="1.2",
     fap_category="NFC",
 )

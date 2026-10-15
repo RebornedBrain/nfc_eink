@@ -11,6 +11,8 @@ Here is the list of displays wich app supports now:
 - Waveshare 2.9 inch
 - Waveshare 4.2 inch
 - Waveshare 7.5 inch
+- Waveshare 4.2 inch V2 (write only, no emulation)
+- Waveshare 2.13 / 2.9 / 2.7 / 7.5 inch V2 (write only, UNTESTED)
 
 **Goodisplay**:
 - GDEY0154D67

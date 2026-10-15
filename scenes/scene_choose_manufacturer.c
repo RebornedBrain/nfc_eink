@@ -11,6 +11,8 @@ void nfc_eink_scene_choose_manufacturer_on_enter(void* context) {
 
     submenu_set_header(submenu, "Choose Manufacturer");
     for(uint8_t type = 0; type < NfcEinkManufacturerNum; type++) {
+        // Hersteller ohne Emulation (z.B. Waveshare V2) hier nicht anzeigen
+        if(!nfc_eink_screen_manufacturer_can_emulate(type)) continue;
         submenu_add_item(
             submenu,
             nfc_eink_screen_get_manufacturer_name(type),

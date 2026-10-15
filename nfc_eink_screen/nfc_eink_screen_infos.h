@@ -18,6 +18,7 @@ typedef enum {
 typedef enum {
     NfcEinkManufacturerWaveshare,
     NfcEinkManufacturerGoodisplay,
+    NfcEinkManufacturerWaveshareV2, // neu: Waveshare V2 (ISO14443-4A), nur Schreiben
 
     NfcEinkManufacturerNum,
     NfcEinkManufacturerUnknown
@@ -29,6 +30,11 @@ typedef enum {
 #define NFC_EINK_SCREEN_WAVESHARE_2n9  "Waveshare 2.9 inch"
 #define NFC_EINK_SCREEN_WAVESHARE_4n2  "Waveshare 4.2 inch"
 #define NFC_EINK_SCREEN_WAVESHARE_7n5  "Waveshare 7.5 inch"
+#define NFC_EINK_SCREEN_WAVESHARE_V2_4n2  "Waveshare 4.2 inch V2"
+#define NFC_EINK_SCREEN_WAVESHARE_V2_2n13 "Waveshare 2.13 V2 (test)"
+#define NFC_EINK_SCREEN_WAVESHARE_V2_2n9  "Waveshare 2.9 V2 (test)"
+#define NFC_EINK_SCREEN_WAVESHARE_V2_2n7  "Waveshare 2.7 V2 (test)"
+#define NFC_EINK_SCREEN_WAVESHARE_V2_7n5  "Waveshare 7.5 V2 (test)"
 #define NFC_EINK_SCREEN_GDEY0154D67    "GDEY0154D67"
 #define NFC_EINK_SCREEN_GDEY0213B74    "GDEY0213B74"
 #define NFC_EINK_SCREEN_GDEY029T94     "GDEY029T94"
@@ -61,3 +67,8 @@ uint8_t nfc_eink_descriptor_filter_by_screen_size(
     NfcEinkScreenSize screen_size);
 
 uint8_t nfc_eink_descriptor_filter_by_name(EinkScreenInfoArray_t result, const char* name);
+
+// Fuegt alle Waveshare-V2-Bildschirme mit dieser Groesse hinzu (ohne Doppelte)
+uint8_t nfc_eink_descriptor_add_v2_by_screen_size(
+    EinkScreenInfoArray_t result,
+    NfcEinkScreenSize screen_size);
